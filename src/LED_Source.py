@@ -45,3 +45,38 @@ class LED_Source():
         if self.logs:
             self.logger = logging.getLogger(self.__class__.__name__)
             self.logger.info(f"{self.__class__.__name__} initialized")
+  
+    async def connect(self):
+        try:
+            self.client = BleakClient(self.device_address)
+            if self.logs: self.logger.info(f"Connecting to device: {self.device_address}")
+            print(f"Connecting to device: {self.device_address}")
+            await self.client.connect()
+            for service in self.client.services:
+                if service.description == "Generic Access Profile":
+                    for char in service.characteristics:
+                        if self.logs: self.logger.info(f"Set RX_CHAR_UUID with {char.uuid}")
+                        print(f"Set RX_CHAR_UUID with {char.uuid}")
+                        self.RX_CHAR_UUID = char.uuid
+
+                elif service.description == "Vendor specific":
+                    for char in service.characteristics:
+                        if (','.join(char.properties) == "write-without-response,write") and self.TX_CHAR_UUID == "":
+                            if self.logs: self.logger.info(f"Set TX_CHAR_UUID with {char.uuid}")
+                            print(f"Set TX_CHAR_UUID with {char.uuid}")
+                            self.TX_CHAR_UUID = char.uuid
+            if self.logs: self.logger.info(f"Connected to device {self.device_address}")
+            print(f"Connected to device {self.device_address}")
+
+        except Exception as e:
+            if self.logs:self.logger.error(f"Failed to connect to LED: {e}")
+            raise ConnectionError(f"Failed to connect to LED: {e}")
+    
+    async def disconnect(self):
+        if self.client and self.client.is_connected:
+            await self.client.disconnect()
+            if self.logs: self.logger.info(f"Disconnected from device {self.device_address}")
+            print(f"Disconnected from device {self.device_address}")
+        else:
+            if self.logs: self.logger.info("Cannot disconnect: there is no device connected")
+            print("Cannot disconnect: there is no device connected")

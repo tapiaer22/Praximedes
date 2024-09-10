@@ -120,3 +120,24 @@ class LED_Source():
         except Exception as e:
             if self.logs: self.logger.error(f"Failed to send colors to LED source: {e}")
             raise Exception(f"Failed to send colors to LED source: {e}")
+
+    async def change_power(self, state="ON"):
+        # Check for connection
+        if not self.client or not self.client.is_connected:
+            if self.logs: self.logger.error("No LED device connected: cannot change color")
+            raise ConnectionError("No LED device connected")
+        
+        # Set command values
+        if state == "0" or state == "OFF":
+            mode = 36   # Value for Off
+            state = "OFF"
+        else: 
+            mode = 35   # Value for ON
+            state = "ON"
+        power_command = bytearray([204,mode,51])
+
+        # Write the command to the characteristic
+        await self.client.write_gatt_char(self.TX_CHAR_UUID, power_command)
+        if self.logs: self.logger.info(f"Turn {state} LED command sent")
+        print(f"Turn {state} LED command sent")
+    

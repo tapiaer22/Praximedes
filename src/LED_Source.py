@@ -80,3 +80,43 @@ class LED_Source():
         else:
             if self.logs: self.logger.info("Cannot disconnect: there is no device connected")
             print("Cannot disconnect: there is no device connected")
+    
+    async def scan_devices(self):
+        try:
+            if self.logs: self.logger.info("Scanning for LED devices...")
+            print("Scanning for LED devices...")
+            devices = await BleakScanner.discover(timeout=7.0)
+            if devices:
+                if self.logs: self.logger.info("Devices found:")
+                print("Devices found:")
+                #Show LED devices only
+                for device in devices:
+                    if str(device.name).startswith("QHM"):
+                        if self.logs: self.logger.info(f"Name: {device.name}\t ID: {device.address}")
+                        print(f"Name: {device.name}\t ID: {device.address}")
+            else:
+                if self.logs: self.logger.warning("No devices found! :[")
+                print("No devices found! :[")
+        except Exception as e:
+            if self.logs: self.logger.error(f"Could not scan for devices: {e}")
+            print(f"Could not scan for devices: {e}")                  
+
+    async def change_color(self, R=None, G=None, B=None):
+        # Check for connection
+        if not self.client or not self.client.is_connected:
+            if self.logs: self.logger.error("No LED device connected: cannot change color")
+            raise ConnectionError("No LED device connected: cannot change color")
+        # Send command to change color
+        try:
+            # Characteristic to change color
+            brightness = (int(10 * 255 / 100) & 0xFF)
+            color_command = bytearray([86, R, G, B, brightness, 256-16, 256-86])
+
+            # Write the command to the characteristic
+            await self.client.write_gatt_char(self.TX_CHAR_UUID, color_command)
+            if self.logs: self.logger.info(f"Color R:{R} G:{G} B:{B} command sent")
+            print(f"Color R:{R} G:{G} B:{B} command sent")
+
+        except Exception as e:
+            if self.logs: self.logger.error(f"Failed to send colors to LED source: {e}")
+            raise Exception(f"Failed to send colors to LED source: {e}")

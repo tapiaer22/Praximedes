@@ -29,3 +29,19 @@ Below are the modes that can be used:
     "Music Mode": 99
 '''
 
+class LED_Source():
+    def __init__(self, device_address, logs=True):
+        self.device_address = device_address
+        self.RX_CHAR_UUID = ""
+        self.TX_CHAR_UUID = ""
+        self.client = None
+        self.Modes = [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 
+         47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 
+         97, 98, 99]
+        self.Speed = 5
+        
+        #For logs
+        self.logs = logs
+        if self.logs:
+            self.logger = logging.getLogger(self.__class__.__name__)
+            self.logger.info(f"{self.__class__.__name__} initialized")

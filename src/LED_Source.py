@@ -101,7 +101,7 @@ class LED_Source():
             if self.logs: self.logger.error(f"Could not scan for devices: {e}")
             print(f"Could not scan for devices: {e}")                  
 
-    async def change_color(self, R=None, G=None, B=None):
+    async def change_color(self, R, G, B):
         # Check for connection
         if not self.client or not self.client.is_connected:
             if self.logs: self.logger.error("No LED device connected: cannot change color")
@@ -141,3 +141,37 @@ class LED_Source():
         if self.logs: self.logger.info(f"Turn {state} LED command sent")
         print(f"Turn {state} LED command sent")
     
+    async def change_mode(self, idx):
+        # Check for connection
+        if not self.client or not self.client.is_connected:
+            if self.logs: self.logger.error("No LED device connected: cannot change color")
+            raise ConnectionError("No LED device connected")
+         
+        # Set command values
+        mode_value = self.Modes[idx]
+        mode_command = bytearray([256 - 69, mode_value, (self.Speed & 0xFF), 68])
+
+        # Write the command to the characteristic
+        await self.client.write_gatt_char(self.TX_CHAR_UUID, mode_command)
+
+        if self.logs: self.logger.info(f"Change Mode with ID {mode_value} Speed {self.Speed}")
+        print(f"Change Mode with ID {mode_value} and Speed {self.Speed}")
+
+    async def ChillMode(self):
+        # Check for connection
+        if not self.client or not self.client.is_connected:
+            if self.logs: self.logger.error("No LED device connected")
+            raise ConnectionError("No LED device connected")
+        
+        if self.logs: self.logger.info("Setting chill mode on LED source...")
+        print("Setting chill mode on LED source...")
+
+        await self.change_power("ON")
+        #Change mode to pulsating purple, and slow pulsating rate
+        self.Speed = 9
+        await self.change_mode(6)
+
+        if self.logs: self.logger.info("Chill mode on LED set!")
+        print("Chill mode on LED set!")
+
+    #Missing function to change speed

@@ -45,7 +45,7 @@ class LED_Source():
         if self.logs:
             self.logger = logging.getLogger(self.__class__.__name__)
             self.logger.info(f"{self.__class__.__name__} initialized")
-  
+    
     async def connect(self):
         try:
             self.client = BleakClient(self.device_address)
@@ -80,7 +80,7 @@ class LED_Source():
         else:
             if self.logs: self.logger.info("Cannot disconnect: there is no device connected")
             print("Cannot disconnect: there is no device connected")
-    
+
     async def scan_devices(self):
         try:
             if self.logs: self.logger.info("Scanning for LED devices...")
@@ -162,9 +162,6 @@ class LED_Source():
         if not self.client or not self.client.is_connected:
             if self.logs: self.logger.error("No LED device connected")
             raise ConnectionError("No LED device connected")
-        
-        if self.logs: self.logger.info("Setting chill mode on LED source...")
-        print("Setting chill mode on LED source...")
 
         await self.change_power("ON")
         #Change mode to pulsating purple, and slow pulsating rate

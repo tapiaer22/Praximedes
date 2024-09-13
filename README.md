@@ -1,7 +1,7 @@
 # Praximedes
 Control LED lights (HappyLighting), play music, and input voice commands with python! 
 
-## [LED_Source.py](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py)
+## [LED_Source.py](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py) (Happy Lighting) 
 Easily light up your space with `LED_Source`! 💡✨
 
 This module contains the class `LED_Source` that could be used to manipulate LED lights from Happy Lighting by using python code. All methods are async and awaitable, 

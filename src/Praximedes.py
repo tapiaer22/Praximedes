@@ -99,3 +99,31 @@ class Praximedes:
         self.voice_settings['rate'] = rate if rate >= 60 and rate <= 300 else  180
         self.voice_settings['volume'] = volume if volume >= 0 and volume <= 1 else 1.0
         if self.logs: self.logger.info(f"Set voice settings: voice={self.voice_settings['voice']}, rate={self.voice_settings['rate']}, volume={self.voice_settings['volume']}")
+    
+    #Voice to text with mic
+    def transcribe_action(self, language="en"):
+        #Turn on Mic
+        with sr.Microphone() as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+            self.speak("Wassup boss. Whats the mission?")
+            print("Listening...")
+
+            # Capture the audio input
+            audio = self.recognizer.listen(source, timeout=5)
+
+            print("Recognizing...")
+
+            try:
+                # Use Google Speech Recognition to transcribe the audio
+                query = self.recognizer.recognize_google(audio, language=language)
+                print(f"Transcribed message: {query}")
+                if self.logs: self.logger.info(f"Transcribed message: {query}")
+                return query
+
+            except sr.UnknownValueError:
+                if self.logs: self.logger.warning(f"Praximedes could not understand what you said")
+                self.speak("Sorry, I could not understand what you said.")
+            except sr.RequestError as e:
+                if self.logs: self.logger.error(f"There was an issue with the speech recognition service: {e}")
+                self.speak(f"Sorry, there was an issue with the speech recognition service.")
+                print(f"Details: {e}")

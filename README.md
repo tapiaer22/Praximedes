@@ -1,6 +1,12 @@
 # Praximedes
 Control LED lights (HappyLighting), play music, and input voice commands with python! 
 
+Steps:
+- Download `src` and `config` folders
+- Input your LED MAC address into `/config/devices.json` for LED1
+- Run /src/main.py
+- Once your PC is listening, you can say commands like "turn on led lights", "turn off led lights", "change color to blue"
+
 ## [LED_Source.py](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py) (Happy Lighting) 
 Easily light up your space with `LED_Source`! 💡✨
 

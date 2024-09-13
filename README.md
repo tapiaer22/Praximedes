@@ -71,6 +71,47 @@ await led.ChillMode()  # Set LED to a chill environment
 ```
 
 ### Examples
+A simple scenario to turn on lights, change color to red, and disconnect from the device
+```python
+import asyncio
+# Put class LED_Source with dependencies here, or import it
+
+async def yeah():
+    led = LED_Source("MAC address here")    #Initialize LED source
+    await led.connect()     # Connect to device
+    await led.change_power()    # Turn on device
+    await led.change_color(255,0,0)     # Change LED light color to Red
+    await led.disconnect()  # Disconnect from device (optional)
+
+asyncio.run(yeah())     # Run async function
+```
+
+A scenario to turn on lights and change to mode Pulsating green/blue
+```python
+import asyncio
+# Put class LED_Source with dependencies here, or import it
+
+async def green_blue():
+    led = LED_Source("MAC address here")    #Initialize LED source
+    await led.connect()     # Connect to device
+    await led.change_power()    # Turn on LED lights
+    await led.change_mode(10)    # Change mode to Pulsating green/blue
+
+asyncio.run(green_blue())     # Run async function
+```
+
+A scenario to engage in chill mode
+```python
+import asyncio
+# Put class LED_Source with dependencies here, or import it
+
+async def set_chill():
+    led = LED_Source("MAC address here")    #Initialize LED source
+    await led.connect()     # Connect to device
+    await led.ChillMode()   # set LED lights to a chill environment
+
+asyncio.run(set_chill())     # Run async function
+```
 
 ## Praximedes.py
 

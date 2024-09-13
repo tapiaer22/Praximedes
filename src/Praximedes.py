@@ -70,11 +70,11 @@ class Praximedes:
     #Message after succesfully executing a command
     def confirm_command_message(command):
         def wrapper(self, *args, **kwargs):
-            self.logger.info(f"Function called: {command.__name__}")
+            if self.logs: self.logger.info(f"Function called: {command.__name__}")
             self.speak(self.confirmation_message)
             command(self, *args,**kwargs)
         async def async_wrapper(self, *args, **kwargs):
-            self.logger.info(f"Async Function called: {command.__name__}")
+            if self.logs: self.logger.info(f"Async Function called: {command.__name__}")
             self.speak(self.confirmation_message)
             if (command.__name__[:3] == "LED" or command.__name__ == "engage_chillmode") and (not self.led_lights_handler.client or not self.led_lights_handler.client.is_connected):
                 await self.led_lights_handler.connect()
@@ -84,4 +84,18 @@ class Praximedes:
             return async_wrapper
         else:
             return wrapper
+    
+    #Personalize speech generator
+    def set_voice_settings(self,voice="female",rate=180,volume=1.0):
+        if voice == 'male':
+            self.engine.setProperty('voice',r"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0")
+        else:
+            self.engine.setProperty('voice',r"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0")
+            voice = "female"
+        self.engine.setProperty('rate', rate)
+        self.engine.setProperty('volume', volume)
 
+        self.voice_settings['voice'] = voice
+        self.voice_settings['rate'] = rate if rate >= 60 and rate <= 300 else  180
+        self.voice_settings['volume'] = volume if volume >= 0 and volume <= 1 else 1.0
+        if self.logs: self.logger.info(f"Set voice settings: voice={self.voice_settings['voice']}, rate={self.voice_settings['rate']}, volume={self.voice_settings['volume']}")

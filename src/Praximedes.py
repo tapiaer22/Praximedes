@@ -69,4 +69,19 @@ class Praximedes:
 
     #Message after succesfully executing a command
     def confirm_command_message(command):
-        pass
+        def wrapper(self, *args, **kwargs):
+            self.logger.info(f"Function called: {command.__name__}")
+            self.speak(self.confirmation_message)
+            command(self, *args,**kwargs)
+        async def async_wrapper(self, *args, **kwargs):
+            self.logger.info(f"Async Function called: {command.__name__}")
+            self.speak(self.confirmation_message)
+            if (command.__name__[:3] == "LED" or command.__name__ == "engage_chillmode") and (not self.led_lights_handler.client or not self.led_lights_handler.client.is_connected):
+                await self.led_lights_handler.connect()
+            await command(self, *args,**kwargs)
+        
+        if asyncio.iscoroutinefunction(command):
+            return async_wrapper
+        else:
+            return wrapper
+

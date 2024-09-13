@@ -1,4 +1,5 @@
 #For modules
+import logging.handlers
 import os
 import sys
 #For async functionalities
@@ -11,5 +12,14 @@ from Praximedes import Praximedes
 import traceback, logging
 #For ML
 import re
-#For saved data, settings, and other functionalities
-import json, random
+
+def main():
+    app = QApplication(sys.argv)
+    loop = qasync.QEventLoop(app)
+    asyncio.set_event_loop(loop)
+    with loop:
+        loop.run_until_complete(run_prax())
+
+#Function to handle commands
+async def run_prax(action = None):
+    pass

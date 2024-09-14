@@ -127,3 +127,109 @@ class Praximedes:
                 if self.logs: self.logger.error(f"There was an issue with the speech recognition service: {e}")
                 self.speak(f"Sorry, there was an issue with the speech recognition service.")
                 print(f"Details: {e}")
+    
+    #Chill Mode
+    @confirm_command_message
+    async def engage_chillmode(self):
+        self.speak("Entering Chill Mode!")
+
+        # Load chill mode settings
+        with open(os.path.join(self.__config_dir,"custom.json")) as file:
+            data = json.load(file)
+        chill_mode = data["Chill_mode"]
+
+        # Try to turn on LED Lights
+        try:
+            await self.led_lights_handler.ChillMode()
+            self.speak("Turning on LED Lights!")
+        except Exception as e:
+            self.speak(f"Unable to connect with led lights: {e}")
+
+        # Try Running Spotify
+        try:
+            self.spotify_controller.Play_ChillSong(track=chill_mode["Song"], artist=chill_mode["Artist"], playlist_uri=chill_mode["Playlist_uri"])
+            self.speak("Playing Spotify")
+        # If No device is found to be active
+        except spotipy.SpotifyException as e:
+            if self.logs: self.logger.error(f"Could not run spotify: {e}")
+            print(e)
+            self.speak("Cannot Play music on Spotify! No active device was found!")
+        else:
+            #Chill Mode successfull!
+            self.speak("Be ready")
+            self.engine.setProperty('rate',90)
+            self.speak("<pitch middle='-10'>To</pitch>")
+            self.engine.setProperty('rate',50)
+            self.speak("<pitch middle='-20'>Reeelax...</pitch>")
+            #Reset settings
+            self.set_voice_settings(self.voice_settings['voice'],
+                                    self.voice_settings['rate'],
+                                    self.voice_settings['volume'])
+            if self.logs: self.logger.info("Engaged on chill mode")
+
+    #LED Lights-----
+    #LED turn on
+    @confirm_command_message
+    async def LED_turnOn(self):
+        try:
+            await self.led_lights_handler.change_power(state="ON")
+            self.speak("Turning on LED Lights!")
+        except Exception as e:
+            print(e)
+            self.speak("Unable to connect with LED lights")
+    
+    #LED turn off
+    @confirm_command_message
+    async def LED_turnOff(self):
+        try:
+            await self.led_lights_handler.change_power(state="OFF")
+            self.speak("Turning off LED Lights!")
+        except Exception as e:
+            print(e)
+            self.speak("Unable to connect with LED lights")
+    
+    #LED change color of lights
+    @confirm_command_message
+    async def LED_changeColor(self,color_string = None):
+        try:
+            # Set to lower case
+            if color_string: color_string = color_string.lower()
+
+            # Get colors from json file in config
+            with open(os.path.join(self.__config_dir,'colors.json'), "r") as json_file:
+                colors = json.load(json_file)
+
+            # Select random color in saved json file
+            if color_string == 'random' or color_string == None:
+                self.speak("Picking a color at random...")
+                color_names = list(colors.keys())
+                color_string = random.choice(color_names)
+                R,G,B = colors[color_string]
+
+            # Find color string in json file
+            else:
+                # If color exist in json file
+                if color_string in colors:
+                    R,G,B = colors[color_string]
+                # If color does not exist in json file
+                else:
+                    if self.logs: self.logger.error(f"Unknown color string: {color_string}")
+                    raise ValueError(f"Unknown color string: {color_string}")
+                
+            # Send command to change color
+            await self.led_lights_handler.change_color(R,G,B)
+
+            # Log message
+            if self.logs: self.logger.info(f"Changing color of LED lights to {color_string}")
+            # Speak the message
+            self.speak(f"Changing color of LED lights to {color_string}")
+        
+        #Error handling
+        except ConnectionError as conn_e:
+            self.speak(f"Sorry, I was not able to connect with the LED lights device.")
+            self.logger.error(f"Failed to connect to device: {conn_e}")
+        except Exception as e:
+            self.speak(f"Sorry, I Failed to change the color of LED lights: {e}")
+            self.logger.error(f"Failed to change color of LED: {e}")
+    #---------------
+    #Fix functionality in ML main to get colors that are more than 1 word long

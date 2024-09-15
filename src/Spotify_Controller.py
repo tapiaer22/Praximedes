@@ -34,3 +34,14 @@ class Spotify_Controller:
         if self.logs:
             self.logger = logging.getLogger(self.__class__.__name__)
             self.logger.info(f"{self.__class__.__name__} initialized")
+    
+    #Methods that return data
+    def get_playlists(self):
+        # Get user playlists
+        result = []
+        playlists = self.sp.current_user_playlists()
+        for playlist in playlists['items']:
+            result.append(playlist['name'])
+        # Log playlists
+        if self.logs: self.logger.info(f"Obtained spotify playlists: {result}")
+        return result

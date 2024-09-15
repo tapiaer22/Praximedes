@@ -1,5 +1,5 @@
 #For async functionalities
-import asyncio, os
+import asyncio, os, sys
 import random
 #Classes for Praximedes tools
 from Spotify_Controller import Spotify_Controller
@@ -10,6 +10,7 @@ import speech_recognition as sr, pyttsx3
 import logging
 #For saved data, settings, and other functionalities
 import json
+sys.coinit_flags = 0
 
 
 
@@ -232,4 +233,4 @@ class Praximedes:
             self.speak(f"Sorry, I Failed to change the color of LED lights: {e}")
             self.logger.error(f"Failed to change color of LED: {e}")
     #---------------
-    #Fix functionality in ML main to get colors that are more than 1 word long
+    #Fix functionality in ML at main.py main to get colors that are more than 1 word long

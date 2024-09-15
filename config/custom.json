@@ -1,0 +1,10 @@
+{
+    "Chill_mode":{
+        "Song": "Tu y Yo",
+        "Artist": "Santa Fe Klan",
+        "Playlist_uri": "spotify:playlist:3CxV9UJUKaU5Dc1nYEsSxA",
+        "LED_mode": 6,
+        "LED_speed": 9,
+        "LED_power": "ON" 
+    }
+}

@@ -38,6 +38,7 @@ python main.py
 After proper setup, you can run `main.py` and say commands like "turn on led lights", "turn off led lights", "change color to blue".
 > Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `main.py` again.
 
+<br><br><br><br>
 
 
 
@@ -53,6 +54,7 @@ led = LED_Source(device_address, logs=True)  #  Initialize class (with logs by d
 ```
 - **device_address**: the MAC address of the BLE device (required)
 - **logs**: output logs and messages to a file (optional)
+<br>
 
 ### Methods:
 - `connect()`
@@ -61,12 +63,14 @@ led = LED_Source(device_address, logs=True)  #  Initialize class (with logs by d
 led = LED_Source("00:00:00:00:00:00")  #  Initialize class (with logs by default)
 await led.connect()  # Connect to 00:00:00:00:00:00
 ```
+<br>
 
 - `disconnect()`
   <br>Assuming you had a connection with the BLE device, you can manually disconnect from it
 ```python
 await led.disconnect()  # Manually disconnect from current BLE device
 ```
+<br>
 
 - `change_power(state="ON")`
   <br>Turn on LED lights with parameter state="ON", or turn off LED lights with state="OFF"
@@ -75,6 +79,7 @@ await led.change_power(state="ON")    # Turrn on LED lights
 await led.change_power(state="OFF")   # Turn off LED lights
 await led.change_power()  # Turns on LED lights by default
 ```
+<br>
   
 - `scan_devices()`
   <br>Scans for nearby LED devices from Happy Lighting, printing their name and MAC address 
@@ -85,6 +90,7 @@ await led.scan_devices()  # Scan for Happy Lighting LED devices
 # Name: QHM-LED0  ID: 00:00:00:00:00:00
 # Name: QHM-LED1  ID: 00:00:00:00:00:01
 ```
+<br>
   
 - `change_color(R,G,B)`
   <br>Changes the color of LED lights using RGB values
@@ -96,6 +102,7 @@ await led.change_color(255,0,0)  # Change color to RED
 await led.change_color(128,0,128)  # Change color to PURPLE
 await led.change_color(0,255,0)  # Change color to GREEN
 ```
+<br>
   
 - `change_mode(idx)`
   <br>Changes mode of LED lights. There are 23 modes, so idx stands for the index of the known modes. idx is an int between 0 - 22 (inclusive), and the modes could be found in the module [here](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py)
@@ -104,12 +111,14 @@ await led.change_mode(0)  # Pulsating rainbow
 await led.change_mode(1)  # Pulsating red
 await led.change_mode(9)  # Pulsating red/blue
 ```
+<br>
   
 - `ChillMode()`
   <br>Customized chill feature made by the developer. Sets the LED lights to a chill color and customized settings for a chill environment
 ```python
 await led.ChillMode()  # Set LED to a chill environment
 ```
+<br>
 
 ### Examples
 A simple scenario to turn on lights, change color to red, and disconnect from the device

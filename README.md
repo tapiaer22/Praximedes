@@ -52,8 +52,9 @@ This module contains the class `LED_Source` that could be used to manipulate LED
 ```python
 led = LED_Source(device_address, logs=True)  #  Initialize class (with logs by default)
 ```
-- **device_address**: the MAC address of the BLE device (required)
-- **logs**: output logs and messages to a file (optional)
+Parameters:
+- `device_address`: the MAC address of the BLE device (required)
+- `logs`: output logs and messages to a file (optional)
 <br>
 
 ### Methods:
@@ -94,9 +95,10 @@ await led.scan_devices()  # Scan for Happy Lighting LED devices
   
 - `change_color(R,G,B)`
   <br>Changes the color of LED lights using RGB values
-  - R: red component of color (int between 0 and 255)
-  - G: green component of color (int between 0 and 255)
-  - B: blue component of color (int between 0 and 255)
+  Parameters:
+  - `R`: red component of color (int between 0 and 255)
+  - `G`: green component of color (int between 0 and 255)
+  - `B`: blue component of color (int between 0 and 255)
 ```python
 await led.change_color(255,0,0)  # Change color to RED
 await led.change_color(128,0,128)  # Change color to PURPLE
@@ -162,18 +164,93 @@ async def set_chill():
 
 asyncio.run(set_chill())     # Run async function
 ```
+<br><br>
 
 
 
+## [Spotify_Controller.py](https://github.com/tapiaer22/Praximedes/blob/main/src/Spotify_Controller.py)
+This module connects with the Spotify API.
 
-## Praximedes.py
+### Initialization
 
-## Spotify_Controller.py
+### Methods
+
+### Examples
+
+<br><br>
+
+
+
+## [Praximedes.py](https://github.com/tapiaer22/Praximedes/blob/main/src/Praximedes.py)
+This module contains the voice assistant code. It is meant to combine [LED_Source.py](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_source.py) and [Spotify_Controller.py](https://github.com/tapiaer22/Praximedes/blob/main/src/Spotify_Controller.py) to perform customized actions while speaking.
+
+### Initialization
+```python
+prax = Praximedes(logs=True, print_speech=True, confirmation_message="Hell yeah boss...")   # Initializae class with default settings
+```
+Parameters:
+- `logs`: output logs on a file (optional)
+- `print_speech`: print what is being spoken by the PC to the console (optional)
+- `confirmation_message`: message for PC to say after executing a method. You can personalize this (optional)
+
+### Methods
+- `speak(message)`
+  <br>A message for the PC to say
+```python 
+prax = Praximedes()   # Initialize class
+prax.speak("Hello World!") # PC will say "Hello World!"
+```
+<br>
+
+- `confirm_command_message(command)`
+  <br>This is a decorator that is not meant to be used outside the class. It is a wrapper that says the `confirmation_message` when executing a method within the class. It should be used if you want to add more methods to the class and you want a message to be said when calling it.
+```python
+class Praximedes:
+   __init__(...)
+   ...
+   #Your customized function
+   @confirm_command_message
+   def welcome_user(self):
+      self.speak("Hi, new user! Welcome back!")
+```
+<br>
+
+- `set_voice_settings(voice,rate,volume)`
+  <br> This are the voice setting for the PC.
+
+   Parameteres:
+  - `voice`: could be 'male' or 'female'. Default is 'female'. (optional)
+  - `rate`: rate of speech at 'words per minute', within 60-300 words per minute inclusive. Default is 180. (optional)
+  - `volume`: volume of PC when speaking, between 0 - 1.0: `0` being mute and `1.0` being the loudest. Default is `1.0`. (optional)
+```python
+prax.set_voice_settings('male',120,0.5)     # Change voice to male, at 120 wpm, and volume at 50%
+prax.speak("This is a new voice setting")   # Will speak with new voice settings
+```
+<br>
+
+- `transcribe_action(language='en')`
+  <br>This function captures audio from the microphone and returns a transcription of what was said. It uses the specified language for transcription; in this case, it will listen in english: `'en'`
+  
+  Parameters:
+  - `language`: the language for transcription. (optional)
+  
+  Returns:
+  -  `query`: A string of the transcribed text of the audio captured
+```python
+# Transcribe message in English
+transcription_en = prax.transcribe_action()
+print(transcription_en)
+
+# Transcribe message in Spanish
+transcription_es = prax.transcribe_action('es')
+print(transcription_es)
+```
+<br>
+  
+
+### Examples
+
+<br><br>
+
 
 ## main.py
-
-## config
-### colors.json
-### devices.json
-### spotify_client_info.json
-### custom.json

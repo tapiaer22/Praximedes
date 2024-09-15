@@ -12,20 +12,35 @@ All of the above, in Python!
 ```bash
 git clone https://github.com/tapiaer22/Praximedes.git
 ```
+<br>
 
 2. **Install dependencies**
    <br>Go to project folder and install the necessary packages:
 ```bash
 pip install -r requirements.txt
 ```
- 
-3. Input your LED MAC address into `/config/devices.json` for LED1
-4. Run the project
+<br>
+
+3. **Configure settings**
+   <br>Input the MAC address of your HappyLighting LED device into "Your LED mac address here" at `/config/devices.json`.
+   
+   <br>![Image of file to input MAC address](./images/LED1.png)
+   > Note: a MAC address looks like this: `00:00:00:00:00:00`. If you do not know the MAC address        of your device, run `main.py` and say "scan for led devices". This will output the available        LED devices nearby you.
+<br>
+
+5. **Run the project**
    <br> Run `main.py`
 ```bash
 python main.py
 ```
-- Once your PC is listening, you can say commands like "turn on led lights", "turn off led lights", "change color to blue"
+<br>
+
+After proper setup, you can run `main.py` and say commands like "turn on led lights", "turn off led lights", "change color to blue".
+> Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `main.py` again.
+
+
+
+
 
 ## [LED_Source.py](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py) (Happy Lighting) 
 Easily light up your space with `LED_Source`! 💡✨
@@ -138,6 +153,9 @@ async def set_chill():
 
 asyncio.run(set_chill())     # Run async function
 ```
+
+
+
 
 ## Praximedes.py
 

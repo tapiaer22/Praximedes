@@ -168,3 +168,9 @@ class Spotify_Controller:
     # Develop a function that plays a specific playlist in your account
     def play_playlist(self):
         pass
+
+    def pause(self):
+        self.sp.pause_playback()
+        # Log message
+        if self.logs: self.logger.info("Song paused.")
+        print("Song paused")

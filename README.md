@@ -38,6 +38,23 @@ python main.py
 After proper setup, you can run `main.py` and say commands like "turn on led lights", "turn off led lights", "change color to blue".
 > Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `main.py` again.
 
+## 📜 List of commands
+Once you run `main.py`, you could try saying these commands for the program to execute:
+
+💡LED
+- `turn off lights`: will turn off the LED lights.
+- `turn on lights`: will turn on the LED lights.
+- `change color to [color]`: will change color of LED lights to the [color] you specify ([list of colors here](./config/colors.json)).
+- `scan for led devices`: scans for LED devices that are nearby.
+  
+🎧Spotify
+- `my spotify playlists`: shows your available spotify playlists.
+- `spotify devices`: shows a list of devices with spotify that are currently available to play music.
+- `play [song] by [artist]`: plays a [song] that you say, and you could be more specific by mentioning the [artist].
+
+🛠️Special commands
+- `they not like us`: will play 'they not like us' by Kendrick Lamar and sing a part of the chorus.
+- `turn on chill mode`: will set LED lights to a chill environment, play a chill playlist, and make the PC speak with a chill tone 🤙🏾🤙🏾🤙🏾
 <br><br><br><br>
 
 
@@ -251,6 +268,3 @@ print(transcription_es)
 ### Examples
 
 <br><br>
-
-
-## main.py

@@ -174,3 +174,9 @@ class Spotify_Controller:
         # Log message
         if self.logs: self.logger.info("Song paused.")
         print("Song paused")
+    
+    def resume(self):
+        self.sp.start_playback()
+        # Log message
+        if self.logs: self.logger.info("Song resumed")
+        print("Song resumed")

@@ -124,3 +124,47 @@ class Spotify_Controller:
         #Start playback
         if playlist_uri: self.sp.start_playback(device_id=device_id, context_uri=playlist_uri,offset={"uri": track_uri})
         else: self.sp.start_playback(device_id=device_id, uris=[track_uri])
+        
+    def play_song(self, artist: str=None, track: str=None, album: str=None, device_name: str=None, device_id: str=None, at_second: int=None):
+        #Define a song_query for song
+        song_query=""
+        if artist: song_query+=f"artist:{artist} "
+        if track:  song_query+=f"track:{track} "
+        if album: song_query+=f"album:{album} "
+        print(song_query)
+
+        #Search for a song and save URI
+        results = self.sp.search(q=song_query, limit=1, type='track')
+
+        #Check that query exists
+        if results['tracks']['items']:
+            track_uri = results['tracks']['items'][0]['uri']
+            try:
+                # If a device id was provided
+                if device_id:
+                    self.sp.start_playback(device_id=device_id, uris=[track_uri])
+                # If a device name was provided
+                elif device_name:
+                    device_id = self.get_saved_devices()[device_name]
+                    self.sp.start_playback(device_id=device_id, uris=[track_uri])
+                # If no device provided, try to play on this PC
+                else:
+                    self.Play_on_thisPC()
+                    self.sp.start_playback(uris=[track_uri])
+                
+                time.sleep(1)
+                # If user provided the second at which the song should be played
+                if at_second:
+                    self.sp.seek_track(position_ms=at_second * 1000)
+                # Resume song
+                self.resume()
+            except Exception as e:
+                if self.logs: self.logger.error(f"Unable to play song on device: {device_id if device_id else (device_name if device_name else "This PC")}. Details: {e}")
+                print(f"Unable to play song on device: {device_id if device_id else (device_name if device_name else "This PC")}. Details: {e}")
+        else:
+            if self.logs: self.logger.info(f"Could not play song: {track} by {artist if artist else "Unknown artist"} {f"on album: {album}" if album else ""}")
+            print(f"Could not play song: {track} by {artist if artist else "Unknown artist"} {f"on album: {album}" if album else ""}")
+
+    # Develop a function that plays a specific playlist in your account
+    def play_playlist(self):
+        pass

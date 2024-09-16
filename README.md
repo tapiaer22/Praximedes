@@ -186,9 +186,41 @@ asyncio.run(set_chill())     # Run async function
 
 
 ## [Spotify_Controller.py](https://github.com/tapiaer22/Praximedes/blob/main/src/Spotify_Controller.py)
-This module connects with the Spotify API.
+This module connects with the Spotify API by using the `spotipy` library to handle the music 🎧
+> NOTE: To use the spotify API, you will need a Spotify subscription like premium
+
+To get started, you will need to make your own Spotify app. [Full documentation here.](https://developer.spotify.com/documentation/web-api/tutorials/getting-started)
+
+1. Go to [https://developer.spotify.com/](https://developer.spotify.com/). At the top right corner, select 'Log-In'
+   
+![Page of spotify for developers](./images/Image_Spoti1.png)
+![Option for log-in](./images/Image_Spoti2.png)
+
+2. Log-in using your username and password
+3. Go to the dashboard or click the [link here](https://developer.spotify.com/dashboard)
+4. Select 'Create App'
+
+![Button of 'Create app'](./images/Image_Spoti3.png)
+
+5. Fill in for app name, app description, redirect URIs (if you do not have one, just use http://localhost:3000), check for 'Web API', accept terms and conditions, and then save
+
+!![Information to fill for app](./images/Image_Spoti4.png)
+
+6. Go to your app settings and copy your `client_id` and `client_secret` (DO NOT SHARE THESE WITH ANYONE)
+
+![Page for client id and client secret](./images/Image_Spoti5.png)
+
+7. Paste your `client_id` and `client_secret` into the file `config/spotify_client_info.json` of your Praximedes cloned repository
+
+![File to put client id and client secret](./images/Image_Spoti6.png)
+
+<br><br>
+
 
 ### Initialization
+```python
+spoti = Spotify_Controller("client_id","client_secret")   # Initializes class
+```
 
 ### Methods
 

@@ -1,4 +1,4 @@
 {
-    "LED_devices": {"LED1": "Your LED mac address"},
+    "LED_devices": {"LED1": "Your LED mac address here"},
     "Spotify_devices": {"Device1": "ID of spotify device here"}
 }

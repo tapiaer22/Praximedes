@@ -180,3 +180,9 @@ class Spotify_Controller:
         # Log message
         if self.logs: self.logger.info("Song resumed")
         print("Song resumed")
+    
+    def next_track(self):
+        self.sp.next_track()
+        # Log message
+        if self.logs: self.logger.info("Skipped to next song")
+        print("Skipped to next song")

@@ -77,3 +77,50 @@ class Spotify_Controller:
         os.system("spotify next")
         os.system("spotify pause")
 
+    def get_active_device(self):
+        # Check for connected devices
+        devices = self.get_connected_devices()
+        n_devices = len(devices)
+        device_id = None
+
+        # Loop through devices to find an active one
+        for i in range(n_devices):
+            if devices[i]["is_active"] == True:
+                device_id = devices[i]['id']
+        
+        # Log message
+        if self.logs: self.logger.info(f"Active device in spotify: {device_id}")
+        print(f"Active device in spotify: {device_id}")
+
+        #Return active device id, or None if no active device exist
+        return device_id
+    
+    def Play_ChillSong(self, artist: str="Santa Fe", track: str="Tu y Yo", playlist_uri = None):
+        #Define a song query for song
+        song_query=""
+        if artist: song_query+="artist:" + artist + " "
+        if track:  song_query+="track:" + track
+        
+        #Check for active devices 
+        device_id = self.get_active_device()
+        # If no active device, set this PC as active
+        if device_id == None:
+            # Log message
+            if self.logs: self.logger.info("No active device found! Playing spotify in this device")
+            print(f"No active device found! Playing spotify in this device")
+            # Set this PC as active
+            self.Play_on_thisPC()
+            saved_devices = self.get_saved_devices()
+            first_key = list(saved_devices.keys())[0]
+            device_id=saved_devices[first_key]
+
+        #Search for a song and save URI
+        results = self.sp.search(q=song_query, limit=1, type='track')
+        track_uri = results['tracks']['items'][0]['uri']
+        # Log message
+        if self.logs: 
+            self.logger.info(f"Playing: {track} by {artist} {f"in playlist {playlist_uri}" if playlist_uri else ""} on device {device_id}")
+            print(f"Playing: {track} by {artist} {f"in playlist {playlist_uri}" if playlist_uri else ""} on device {device_id}")
+        #Start playback
+        if playlist_uri: self.sp.start_playback(device_id=device_id, context_uri=playlist_uri,offset={"uri": track_uri})
+        else: self.sp.start_playback(device_id=device_id, uris=[track_uri])

@@ -60,3 +60,20 @@ class Spotify_Controller:
         with open(f"{self.__config_dir}/devices.json", "r") as json_file:
             saved_devices = json.load(json_file)
         return saved_devices["Spotify_devices"]
+
+    def get_current_user_profile(self):
+        # Log message
+        if self.logs: self.logger.info("Getting current user info")
+        # Get user info as dict
+        return self.sp.current_user()
+    
+    #Methods that perform actions
+    def Play_on_thisPC(self) -> None:
+        # Log message
+        if self.logs: self.logger.info("Opening spotify on this PC")
+        # Start spotify in this PC
+        os.system("start spotify")
+        time.sleep(3)
+        os.system("spotify next")
+        os.system("spotify pause")
+

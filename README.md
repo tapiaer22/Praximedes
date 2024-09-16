@@ -76,7 +76,7 @@ Parameters:
 
 ### Methods:
 - `connect()`
-  <br>After initializing the class, you must use the `async connect()` method to start a BLE connection
+  <br>(async) After initializing the class, you must use the `async connect()` method to start a BLE connection
 ```python
 led = LED_Source("00:00:00:00:00:00")  #  Initialize class (with logs by default)
 await led.connect()  # Connect to 00:00:00:00:00:00
@@ -84,14 +84,14 @@ await led.connect()  # Connect to 00:00:00:00:00:00
 <br>
 
 - `disconnect()`
-  <br>Assuming you had a connection with the BLE device, you can manually disconnect from it
+  <br>(async) Assuming you had a connection with the BLE device, you can manually disconnect from it
 ```python
 await led.disconnect()  # Manually disconnect from current BLE device
 ```
 <br>
 
 - `change_power(state="ON")`
-  <br>Turn on LED lights with parameter state="ON", or turn off LED lights with state="OFF"
+  <br>(async) Turn on LED lights with parameter state="ON", or turn off LED lights with state="OFF"
 ```python
 await led.change_power(state="ON")    # Turrn on LED lights
 await led.change_power(state="OFF")   # Turn off LED lights
@@ -100,7 +100,7 @@ await led.change_power()  # Turns on LED lights by default
 <br>
   
 - `scan_devices()`
-  <br>Scans for nearby LED devices from Happy Lighting, printing their name and MAC address 
+  <br>(async) Scans for nearby LED devices from Happy Lighting, printing their name and MAC address 
 ```python
 await led.scan_devices()  # Scan for Happy Lighting LED devices
 # Output:
@@ -111,7 +111,7 @@ await led.scan_devices()  # Scan for Happy Lighting LED devices
 <br>
   
 - `change_color(R,G,B)`
-  <br>Changes the color of LED lights using RGB values
+  <br>(async) Changes the color of LED lights using RGB values
   Parameters:
   - `R`: red component of color (int between 0 and 255)
   - `G`: green component of color (int between 0 and 255)
@@ -124,7 +124,7 @@ await led.change_color(0,255,0)  # Change color to GREEN
 <br>
   
 - `change_mode(idx)`
-  <br>Changes mode of LED lights. There are 23 modes, so idx stands for the index of the known modes. idx is an int between 0 - 22 (inclusive), and the modes could be found in the module [here](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py)
+  <br>(async) Changes mode of LED lights. There are 23 modes, so idx stands for the index of the known modes. idx is an int between 0 - 22 (inclusive), and the modes could be found in the module [here](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py)
 ```python
 await led.change_mode(0)  # Pulsating rainbow
 await led.change_mode(1)  # Pulsating red
@@ -133,7 +133,7 @@ await led.change_mode(9)  # Pulsating red/blue
 <br>
   
 - `ChillMode()`
-  <br>Customized chill feature made by the developer. Sets the LED lights to a chill color and customized settings for a chill environment
+  <br>(async) Customized chill feature made by the developer. Sets the LED lights to a chill color and customized settings for a chill environment
 ```python
 await led.ChillMode()  # Set LED to a chill environment
 ```
@@ -263,8 +263,79 @@ transcription_es = prax.transcribe_action('es')
 print(transcription_es)
 ```
 <br>
+
+- `LED_turnOn()`
+  <br>(async) Turn on LED lights while getting PC confirmation message
+```python
+# Make the function awaitable
+await prax.LED_turnOn()   # Turn on lights
+
+# or, explicitly run the awaitable
+asyncio.run(prax.LED_turnOn())
+```
+<br>
+
+- `LED_turnOff()`
+  <br>(async) Turns off LED lights while getting PC confirmation message
+```python
+# Make the function awaitable
+await prax.LED_turnOff()   # Turn off lights
+
+# or, explicitly run the awaitable
+asyncio.run(prax.LED_turnOff())
+```
+
+- `engage_chillmode()`
+  <br>(async) Customized function made by developer. Turns LED lights on, changes the color to a chill environment, and plays a chill spotify playlist 🤙🏾
+```python
+# Make the function awaitable
+await prax.engage_chillmode()   # Chill mode: ON
+
+# or, explicitly run the awaitable
+asyncio.run(prax.engage_chillmode())
+```
   
 
 ### Examples
+A simple scenario to turn on led lights while the PC says "turning on LED lights":
+```python
+#Assuming that Praximedes.py was imported
+import asyncio
+
+prax = Praximedes()   # Initialize praximedes with default settings
+asyncio.run(prax.LED_turnOn())
+```
+
+A scenario where commands are executed based on user voice input:
+```python
+#Assuming that Praximedes.py was imported
+import asyncio
+
+prax = Praximedes()   # Initialize praximedes with default settings
+action = prax.transcribe_action()   # Transcribe in english language
+
+if 'turn on lights' in action:
+    asyncio.run(prax.LED_turnOn())    # Turn on LED lights
+elif 'turn off lights' in action:
+    asyncio.run(prax.LED_turnOff())   # Turn off LED lights
+else:
+    prax.speak("You did not mention something I could do... :(")
+```
+
+A scenario where user suggests a LED color to change to:
+```python
+#Assuming that Praximedes.py was imported
+import asyncio
+
+prax = Praximedes()   # Initialize praximedes with default settings
+action = prax.transcribe_action()   # Transcribe in english language
+
+if 'change color' in action:
+    prax.speak("What color would you like to see?")
+    color = prax.transcribe_action()    # Save color that is requested by user
+    asyncio.run(prax.LED_changeColor(color))     # Change LED lights to user specified color
+else:
+    prax.speak("You did not mention something I could do... :(")
+```
 
 <br><br>

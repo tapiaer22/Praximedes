@@ -52,3 +52,11 @@ class Spotify_Controller:
         # Get active devices using spotify
         devices = self.sp.devices()
         return devices.get("devices")
+    
+    def get_saved_devices(self) -> dict:
+        # Log message
+        if self.logs: self.logger.info("Obtained saved deviced")
+        # Get saved devices from config directory
+        with open(f"{self.__config_dir}/devices.json", "r") as json_file:
+            saved_devices = json.load(json_file)
+        return saved_devices["Spotify_devices"]

@@ -45,3 +45,10 @@ class Spotify_Controller:
         # Log playlists
         if self.logs: self.logger.info(f"Obtained spotify playlists: {result}")
         return result
+    
+    def get_connected_devices(self) -> list:
+        # Log message
+        if self.logs: self.logger.info("Getting connected devices")
+        # Get active devices using spotify
+        devices = self.sp.devices()
+        return devices.get("devices")

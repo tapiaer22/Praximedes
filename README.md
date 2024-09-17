@@ -420,7 +420,10 @@ class Praximedes:
    #Your customized function
    @confirm_command_message
    def welcome_user(self):
-      self.speak("Hi, new user! Welcome back!")
+      # Your code for this method
+      # ---code--------
+      # ...
+      # ---more code---
 ```
 <br>
 

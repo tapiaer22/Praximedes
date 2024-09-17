@@ -36,7 +36,7 @@ class Spotify_Controller:
             self.logger.info(f"{self.__class__.__name__} initialized")
     
     #Methods that return data
-    def get_playlists(self):
+    def get_playlists(self) -> list:
         # Get user playlists
         result = []
         playlists = self.sp.current_user_playlists()
@@ -44,6 +44,7 @@ class Spotify_Controller:
             result.append(playlist['name'])
         # Log playlists
         if self.logs: self.logger.info(f"Obtained spotify playlists: {result}")
+        # Returns a list of strings with the playlists
         return result
     
     def get_connected_devices(self) -> list:

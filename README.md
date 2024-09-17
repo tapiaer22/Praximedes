@@ -60,6 +60,12 @@ Once you run `main.py`, you could try saying these commands for the program to e
 
 
 
+
+
+
+
+
+
 ## [LED_Source.py](https://github.com/tapiaer22/Praximedes/blob/main/src/LED_Source.py) (Happy Lighting) 
 Easily light up your space with `LED_Source`! 💡✨
 
@@ -185,6 +191,11 @@ asyncio.run(set_chill())     # Run async function
 
 
 
+
+
+
+
+
 ## [Spotify_Controller.py](https://github.com/tapiaer22/Praximedes/blob/main/src/Spotify_Controller.py)
 This module connects with the Spotify API by using the `spotipy` library to handle the music 🎧
 > NOTE: To use the spotify API, you will need a Spotify subscription like premium
@@ -219,14 +230,114 @@ To get started, you will need to make your own Spotify app. [Full documentation 
 
 ### Initialization
 ```python
-spoti = Spotify_Controller("client_id","client_secret")   # Initializes class
+# Initialize class by inputting client values manually
+spoti = Spotify_Controller("client_id","client_secret")
 ```
+<br>
 
 ### Methods
+- `get_playlists()`
+  <br>Gets the playlists of the user as a list of strings
+  ```python
+  spoti = Spotify_Controller("client_id","client_secret")   # For authentication to access API
+  playlists = spoti.get_playlists()   # Get list of playlists
+  print(playlists)
+  # Output
+  # ['playlist1', 'playlist2', 'playlist3']
+  ```
+   <br>
 
+- `get_connected_devices()`
+  <br>Returns a list of dictionaries with information on connected devices.
+  Structure data:
+  - `id`: String
+  - `is_active`: Boolean
+  - `is_private_session`: Boolean
+  - `is_restricted`: Boolean
+  - `name`: String
+  - `supports_volume`: Boolean
+  - `type`: String
+  - `volume_percent`: Integer
+  ```python
+  devices = spoti.get_connected_devices()   # Get list of dictionaries with info on connected devices
+  print(devices)
+  # Output
+  # [{'id': '12345', 'is_active': True, 'is_private_session': False, 'is_restricted': False, 'name': 'user1', 'supports_volume': True, 'type': 'Computer', 'volume_percent': 100},
+  # {'id': '67890', 'is_active': False, 'is_private_session': True, 'is_restricted': True, 'name': 'user2', 'supports_volume': False, 'type': 'Computer', 'volume_percent': 50}]
+  ```
+  <br>
+
+- `get_saved_devices()`
+  <br>Returns a dictionary with devices in the form `'device_name': 'device_id'`. It retrieves data from `config/devices.json` in `"Spotify_devices"`
+  ```python
+  saved_devices = spoti.get_saved_devices()   # Get saved devices
+  print(saved_devices)   # print saved devices
+  # Output
+  # {'device1': 'A1B1C1', 'device2': '3849AA', 'device3': 'CIA3V0'}
+  print(saved_devices['device1'])   # print id of 'device1'
+  # Output
+  # 'A1B1C1'
+  ```
+  <br>
+
+- `get_current_user_profile()`
+  <br>Returns a dictionary of user profile info.
+  Structure of data:
+  - `display_name`: String
+  - `external_urls`: Dictionary
+  - `href`: String
+  - `id`: String
+  - `images`: List
+  - `type`: String
+  - `uri`: String
+  - `followers`: Dictionary
+  ```python
+  user_info = spoti.get_current_user_profile()   # Get user info
+  print(user_info)
+  ```
+  <br>
+
+- `Play_on_thisPC()`
+  <br>Starts spotify on current PC
+  ```python
+  spoti.Play_on_thisPC()   # Start spotify on this PC
+  ```
+  <br>
+
+- `get_active_device()`
+  <br>Returns String of device id if it is active, Returns None if no active device exists
+  ```python
+  # Assuming no device is active
+  print(spoti.get_active_device())   # Returns None
+  
+  spoti.Play_on_thisPC()   # Start spotify on this PC
+  print(spoti.get_active_device())   # Returns id of current PC
+  # Output
+  # 'A1B1C1'
+  ```
+  <br>
+  
+- `Play_ChillSong(artist,track,playlist_uri)`
+  <br>Customized function made by developer. Plays a Chill Song by default. If parameters are given, plays a song based on artist, track, and/or uri of playlist.
+  Parameters:
+  - `artist`: name of artist (preferred)
+  - `track`: name of song (preferred)
+  - `playlist_uri`: uri of playlist with song and artist (optional)
+  ```python
+  spoti.Play_ChillSong()   # Plays 'Tu y Yo' by 'Santa Fe', as a default option
+  ```
+  <br>
+  
+- `play_song()`
 ### Examples
 
 <br><br>
+
+
+
+
+
+
 
 
 

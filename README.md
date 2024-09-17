@@ -187,7 +187,7 @@ async def set_chill():
 
 asyncio.run(set_chill())     # Run async function
 ```
-<br><br>
+<br><br><br><br>
 
 
 
@@ -249,7 +249,7 @@ spoti = Spotify_Controller("client_id","client_secret")
 
 - `get_connected_devices()`
   <br>Returns a list of dictionaries with information on connected devices.
-  Structure data:
+  <br>Structure of data:
   - `id`: String
   - `is_active`: Boolean
   - `is_private_session`: Boolean
@@ -268,7 +268,7 @@ spoti = Spotify_Controller("client_id","client_secret")
   <br>
 
 - `get_saved_devices()`
-  <br>Returns a dictionary with devices in the form `'device_name': 'device_id'`. It retrieves data from `config/devices.json` in `"Spotify_devices"`
+  <br>Returns a dictionary with devices saved in `config/devices.json` with `"Spotify_devices"`
   ```python
   saved_devices = spoti.get_saved_devices()   # Get saved devices
   print(saved_devices)   # print saved devices
@@ -282,7 +282,7 @@ spoti = Spotify_Controller("client_id","client_secret")
 
 - `get_current_user_profile()`
   <br>Returns a dictionary of user profile info.
-  Structure of data:
+  <br>Structure of data:
   - `display_name`: String
   - `external_urls`: Dictionary
   - `href`: String
@@ -319,6 +319,7 @@ spoti = Spotify_Controller("client_id","client_secret")
   
 - `Play_ChillSong(artist,track,playlist_uri)`
   <br>Customized function made by developer. Plays a Chill Song by default. If parameters are given, plays a song based on artist, track, and/or uri of playlist.
+
   Parameters:
   - `artist`: name of artist (preferred)
   - `track`: name of song (preferred)
@@ -328,10 +329,58 @@ spoti = Spotify_Controller("client_id","client_secret")
   ```
   <br>
   
-- `play_song()`
+- `play_song(artist, track, album, device_name, device_id, at_second)`
+  <br>Plays a song based on artist, track, or album (or based on all those 3 parameters). You can also specify the name or id of the device in which you want to play the song. Additionally, you can specify the second at which you want to play the song.
+
+  Parameters:
+  - `artist`: name of artist (preferred)
+  - `track`: name of song (preferred)
+  - `album`: name of album (preferred)
+  - `device_name`: name of device to play this song (device name must be in `config/devices.json`) (optional)
+  - `device_id`: id of device to play this son (optional)
+  - `at_second`: second in which the second should start playing (optional)
+  ```python
+  # Play not like us by Kendrick Lamar at second 30 on device with id 'A1B1C1'
+  spoti.play_song(artist="kendrick lamar", track="not like us", at_second=30, device_id='A1B1C1')
+
+  # Play a song by Red Hot Chili Pepper on saved device with name
+  spoti.play_song(artist='Red Hot Chili Peppers',device_name='Device1')
+
+  # Play a song from album Un Verano Sin Ti
+  spoti.play_song(album='Un Verano Sin Ti')
+  ```
+  <br>
+  
+- `pause()`
+  <br>Pauses the playback if a song is playing
+  ```python
+  spoti.pause()   # Pause song
+  ```
+  <br>
+  
+- `resume()`
+  <br>Resumes the playback if a song was paused
+  ```python
+  spoti.resume()   # Resume playback
+  ```
+  <br>
+  
+- `next_track()`
+  <br>Plays the next song on the queue
+  ```python
+  spoti.next_track()   # Playse next track on queue
+  ```
+  <br>
+
+- `play_playlist()`
+  <br>ON DEVELOPMENT
+
+  <br><br>
+  
 ### Examples
 
-<br><br>
+
+<br><br><br><br>
 
 
 

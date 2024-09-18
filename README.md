@@ -376,9 +376,6 @@ spoti = Spotify_Controller("client_id","client_secret")
   <br>ON DEVELOPMENT
 
   <br><br>
-  
-### Examples
-
 
 <br><br><br><br>
 

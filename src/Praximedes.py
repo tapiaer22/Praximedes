@@ -10,7 +10,9 @@ import speech_recognition as sr, pyttsx3
 import logging
 #For saved data, settings, and other functionalities
 import json
-sys.coinit_flags = 0
+
+#Current version should not be messed with flags
+#sys.coinit_flags = 0
 
 
 

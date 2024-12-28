@@ -63,11 +63,12 @@ class Praximedes:
 
     #Say a message
     def speak(self, message=""):
-        if message == "":
-            message = "You forgot to include a message for me to say!"
-        self.engine.say(message)
-        if self.print_speech == True:
-            print(message)
+        if message != "":
+            #Print message if set to true
+            if self.print_speech == True:
+                print(message)
+            #Speak message
+            self.engine.say(message)
         self.engine.runAndWait()
 
     #Message after succesfully executing a command

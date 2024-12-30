@@ -31,7 +31,7 @@ class Praximedes:
         try:
             with open(os.path.join(self.__config_dir,'spotify_client_info.json'), "r") as json_file:
                 CLIENT_INFO = json.load(json_file)
-            self.spotify_controller = Spotify_Controller(CLIENT_INFO["SPOTIFY_CLIENT_ID"],CLIENT_INFO["SPOTIFY_CLIENT_SECRET"])
+            self.spotify_controller = Spotify_Controller(CLIENT_INFO["SPOTIFY_CLIENT_ID"],CLIENT_INFO["SPOTIFY_CLIENT_SECRET"], logs=self.logs)
         except Exception as e:
             self.spotify_controller = None
 
@@ -43,7 +43,7 @@ class Praximedes:
                 DEVICES = json.load(json_file)
             first_key = list(DEVICES["LED_devices"].keys())[0]
             mac_add = DEVICES["LED_devices"][first_key]
-            self.led_lights_handler = LED_Source(mac_add, logs=True)
+            self.led_lights_handler = LED_Source(mac_add, logs=self.logs)
         except Exception as e:
             self.led_lights_handler = None
         

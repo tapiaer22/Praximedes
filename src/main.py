@@ -23,11 +23,19 @@ def main():
     
 async def run_prax(action = None):
     #Logger setup
+    logs_folder = "logs"
+    # Check if the folder exists; if not, create it
+    if not os.path.exists(logs_folder):
+        os.makedirs(logs_folder)
+        print(f"'{logs_folder}' folder created.")
+    else:
+        print(f"'{logs_folder}' folder already exists.")
+    #Configure logger to get logs
     log_dir = os.path.join(os.path.dirname(__file__),'..','logs')
     logging.basicConfig(filename=os.path.join(log_dir,'mainLogs.log'), 
                             level=logging.INFO, 
                             format='%(asctime)s - %(levelname)s - %(name)s.%(funcName)s - %(message)s')
-    logger = logging.getLogger("main_log")
+    logger = logging.getLogger("mainLogs")
     logger.setLevel(logging.INFO)
     logger.info(f"-----PRAXIMEDES SESSION STARTED-----")
 

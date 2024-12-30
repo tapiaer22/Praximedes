@@ -131,6 +131,10 @@ async def run_prax(action = None):
         print(e)
         traceback.print_exception(type(e),e,e.__traceback__.tb_next)
         praximedes.speak("Praximedes was unable to hear anything!")
+    
+    except Exception as e:
+        print(e)
+        praximedes.speak(f"Something went wrong with the command: {action}")
 
 
 if __name__ == "__main__":

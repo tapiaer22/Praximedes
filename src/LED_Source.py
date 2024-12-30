@@ -1,6 +1,5 @@
 import logging
 from bleak import BleakClient, BleakScanner
-from functools import wraps
 
 '''
 Below are the modes that can be used:

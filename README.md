@@ -17,6 +17,7 @@ git clone https://github.com/tapiaer22/Praximedes.git
 2. **Install dependencies**
    <br>Go to project folder and install the necessary packages:
 ```bash
+cd ./Praximedes
 pip install -r requirements.txt
 ```
 <br>

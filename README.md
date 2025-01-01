@@ -2,7 +2,7 @@
 Elevate your vibe with seamless control over
 
 - 💡 LED lights (HappyLighting) 
-- 🎧 Synced music playback (Spotify)
+- 🎧 Sync music playback (Spotify)
 - 🗣️ Intuituve voice commands 
 
 All of the above, in Python! 

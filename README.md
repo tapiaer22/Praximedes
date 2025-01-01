@@ -9,13 +9,14 @@ All of the above, in Python!
 
 ## 🚀 Getting Started:
 1. **Clone repository**
+   <br>Clone this repository
 ```bash
 git clone https://github.com/tapiaer22/Praximedes.git
 ```
 <br>
 
 2. **Install dependencies**
-   <br>Go to project folder and install the necessary packages:
+   <br>Go to `Praximedes` folder and install the necessary packages:
 ```bash
 cd ./Praximedes
 pip install -r requirements.txt
@@ -23,21 +24,36 @@ pip install -r requirements.txt
 <br>
 
 3. **Configure settings**
-   <br>Input the MAC address of your HappyLighting LED device into "Your LED mac address here" at `/config/devices.json`.
+   <br>If you do not know the MAC address of your device, you can copy this to scan for nearby led devices
    
-   <br>![Image of file to input MAC address](./images/LED1.png)
-   > Note: a MAC address looks like this: `00:00:00:00:00:00`. If you do not know the MAC address        of your device, run `main.py` and say "scan for led devices". This will output the available        LED devices nearby you.
+```bash
+python .\src\main.py -a "scan for led devices"
+```
+
+<br>You will get a list of devices with name and ID (MAC address):
+
+<br>![Image of output for scanning LED devices](./images/ScanLED.png)
+
+   <br>Just copy the ID and replace it with `ID of Mac address`, and you can put any name you like for `Any name here`. Then run the following command
+```bash
+python .\src\main.py -m "ID of Mac address" -n "Any name here"
+```
+   <br>The following is an example with ID: `00:00:00:00:00:01` and name: `My Room`
+```bash
+python .\src\main.py -m "00:00:00:00:00:01" -n "My Room"
+```
+   
 <br>
 
-5. **Run the project**
+6. **Run the project**
    <br> Run `main.py`
 ```bash
 python .\src\main.py
 ```
 <br>
 
-After proper setup, you can run `main.py` and say commands like "turn on led lights", "turn off led lights", "change color to blue".
-> Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `main.py` again.
+After proper setup, you can run commands with your voice! Say commands like "turn on led lights", "turn off led lights", "change color to blue".
+> Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `python .\src\main.py` again.
 
 ## 📜 List of commands
 Once you run `main.py`, you could try saying these commands for the program to execute:
@@ -56,7 +72,19 @@ Once you run `main.py`, you could try saying these commands for the program to e
 🛠️Special commands
 - `they not like us`: will play 'they not like us' by Kendrick Lamar and sing a part of the chorus.
 - `turn on chill mode`: will set LED lights to a chill environment, play a chill playlist, and make the PC speak with a chill tone 🤙🏾🤙🏾🤙🏾
-<br><br><br><br>
+
+<br><br>You can also run commands from the terminal/command line:
+```bash
+python .\src\main.py -a "command here"
+```
+<br>Examples:
+```bash
+python .\src\main.py -a "turn off led lights"
+```
+```bash
+python .\src\main.py -a "change color to red"
+```
+<br><br><br><br><br>
 
 
 

@@ -55,6 +55,12 @@ python .\src\main.py
 After proper setup, you can run commands with your voice! Say commands like "turn on led lights", "turn off led lights", "change color to blue".
 > Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `python .\src\main.py` again.
 
+<br><br><br><br><br>
+
+
+
+
+
 ## 📜 List of commands
 Once you run `main.py`, you could try saying these commands for the program to execute:
 

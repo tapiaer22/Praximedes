@@ -41,7 +41,7 @@ async def run_prax(action = None):
         os.makedirs(logs_folder)
         print(f"'{logs_folder}' folder created.")
     else:
-        print(f"'{logs_folder}' folder already exists.")
+        print(f"'{logs_folder}' folder: good ✅")
     #Configure logger to get logs
     log_dir = os.path.join(os.path.dirname(__file__),'..','logs')
     logging.basicConfig(filename=os.path.join(log_dir,'mainLogs.log'), 

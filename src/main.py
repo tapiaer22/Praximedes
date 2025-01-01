@@ -12,14 +12,26 @@ from Praximedes import Praximedes
 import traceback, logging
 #For ML
 import re
+#For parsing arguments in terminal
+import argparse
+import json
 
 
 def main():
+    #Handle arguments from terminal/command-line
+    try:
+        user_action = handle_args()
+    except Exception as e:
+        print(f"Failed to parse arguments: {e}")
+    except SystemExit as se:
+        exit()
+
+    #Start application
     app = QApplication(sys.argv)
     loop = qasync.QEventLoop(app)
     asyncio.set_event_loop(loop)
     with loop:
-        loop.run_until_complete(run_prax())
+        loop.run_until_complete(run_prax(action=user_action))
     
 async def run_prax(action = None):
     #Logger setup
@@ -136,6 +148,54 @@ async def run_prax(action = None):
         print(e)
         praximedes.speak(f"Something went wrong with the command: {action}")
 
+def handle_args():
+    # Parse arguments
+    parser = argparse.ArgumentParser(description="Perform actions via command-line arguments.")
+    
+    # Add arguments
+    parser.add_argument(
+        '-m', '--mac', type=str, help="MAC address of the LED device."
+    )
+    parser.add_argument(
+        '-n', '--name', type=str, help="Name of the LED device."
+    )
+    parser.add_argument(
+        '-a', '--action', type=str, help="Action to perform: 'turn on lights', 'turn off lights', or 'change color to [color]', 'scan for led devices'."
+    )
+    
+    # Parse the arguments
+    args = parser.parse_args()
+    current_dir = os.path.dirname(__file__)
+
+    # Update led devices
+    if args.mac and args.name:
+        name = str(args.name)
+        mac = str(args.mac)
+
+        devices_dir = os.path.join(current_dir,"..","config","devices.json")
+        
+        # Get current devices
+        with open(devices_dir, "r") as devices_file:
+            devices = json.load(devices_file)
+        
+        # Ensure 'LED_devices' is a dictionary in the JSON
+        if 'LED_devices' not in devices or not isinstance(devices['LED_devices'], dict):
+            devices['LED_devices'] = {}
+
+        # Add device as default (on top of dictionary)
+        updated_devices = {name: mac}
+        updated_devices.update(devices['LED_devices'])
+        devices['LED_devices'] = updated_devices
+
+        # Write updated devices to JSON file
+        with open(devices_dir, "w") as devices_file:
+            json.dump(devices,devices_file, indent=2)
+            print(f"Updated {devices_file} succesfully! added {name}: {mac} as default")
+        
+        raise SystemExit("Exiting the program...")
+
+    # Return action from 
+    return str(args.action) if args.action else None
 
 if __name__ == "__main__":
     main()

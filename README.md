@@ -52,8 +52,14 @@ python .\src\main.py
 ```
 <br>
 
-After proper setup, you can run commands with your voice! Say commands like "turn on led lights", "turn off led lights", "change color to blue".
-> Note: You can only say 1 command per run. So, if you want to execute another command, you will have to run `python .\src\main.py` again.
+After proper setup, you can run commands with your voice! Say "turn on led lights", "turn off led lights", "change color to blue".
+> Note: In order to execute commands, you will need to say the wake word so that it starts listening to your commands.
+> <br>You can now say commands until you terminate the program.
+
+<br>
+
+7. **Terminate program**
+   <br>To terminate the program, press `Ctrl + C` on the terminal/command line. Alternatively, you can say the wake word and then say `stop listening` 
 
 <br><br><br><br><br>
 

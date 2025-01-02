@@ -50,13 +50,16 @@ async def run_prax(action = None):
     wake_word = "computer"
     praximedes.speak("Ready to listen for commands, boss")
     praximedes.speak(f"My wake word is: {wake_word}")
-    print("Say 'alpha nova' to start")
+    print(f"Say '{wake_word}' to start")
 
     # Listen until termination
     while True:
         recognizer = sr.Recognizer()
-        my_audio = listen_for_wake_word(recognizer)
-        print(my_audio)
+        my_audio = None
+
+        if not action:
+            my_audio = listen_for_wake_word(recognizer)
+            print(my_audio)
         
         # Take action when wake word was said
         if (wake_word in str(my_audio)) or (action != None):
@@ -250,7 +253,7 @@ def log_setup():
 def listen_for_wake_word(recognizer):
     with sr.Microphone() as source:
         #Adjust for ambien sound
-        print("Adjusting for ambient noise...")
+        print("Tip: Press Ctrl + C to terminate\nAdjusting for ambient noise...")
         recognizer.adjust_for_ambient_noise(source, duration=1)  # Noise calibration
         
         try:
